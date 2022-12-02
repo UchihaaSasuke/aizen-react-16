@@ -7,6 +7,7 @@ import "./App.css";
 import PokemonInfo from "./components/PokemonInfo";
 import PokemonFilter from "./components/PokemonFilter";
 import PokemonTable from "./components/PokemonTable";
+import PokemonContext from "./PokemonContext";
 
 const Title = styled.h1`
   text-align: center;
@@ -38,21 +39,29 @@ function App() {
   }
 
   return (
-    <PageContainer>
-      <CssBaseline />
-      <Title>Pokemon Search</Title>
-      <TwoColumnLayout>
-        <div>
-          <PokemonFilter filter={filter} filterSet={filterSet} />
-          <PokemonTable
-            pokemon={pokemon}
-            filter={filter}
-            selectedPokemonSet={selectedPokemonSet}
-          />
-        </div>
-        {selectedPokemon && <PokemonInfo {...selectedPokemon} />}
-      </TwoColumnLayout>
-    </PageContainer>
+    <PokemonContext.Provider
+      value={{
+        filter,
+        filterSet,
+        pokemon,
+        pokemonSet,
+        selectedPokemon,
+        selectedPokemonSet,
+      }}
+    >
+      <PageContainer>
+        <CssBaseline />
+        <Title>Pokemon Search</Title>
+        <TwoColumnLayout>
+          <div>
+            <PokemonFilter />
+            <PokemonTable />
+          </div>
+          {/* {selectedPokemon && <PokemonInfo />} */}
+          <PokemonInfo />
+        </TwoColumnLayout>
+      </PageContainer>
+    </PokemonContext.Provider>
   );
 }
 
