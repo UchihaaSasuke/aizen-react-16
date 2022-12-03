@@ -9,6 +9,30 @@ import PokemonFilter from "./components/PokemonFilter";
 import PokemonTable from "./components/PokemonTable";
 import PokemonContext from "./PokemonContext";
 
+//?Begin pokemon reducer
+const pokemonReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_FILTER":
+      return {
+        ...state,
+        filter: action.payload,
+      };
+    case "SET_POKEMON":
+      return {
+        ...state,
+        pokemon: action.payload,
+      };
+    case "SET_SELECTED_POKEMON":
+      return {
+        ...state,
+        selectedPokemon: action.payload,
+      };
+    default:
+      throw new Error("No action");
+  }
+};
+//?End pokemon reducer
+
 const Title = styled.h1`
   text-align: center;
 `;
@@ -24,29 +48,33 @@ const TwoColumnLayout = styled.div`
 `;
 
 function App() {
-  const [filter, filterSet] = React.useState("");
-  const [pokemon, pokemonSet] = React.useState(null);
-  const [selectedPokemon, selectedPokemonSet] = React.useState(null);
+  const [state, dispatch] = React.useReducer(pokemonReducer, {
+    filter: "",
+    pokemon: [],
+    selectedPokemon: null,
+  }); //we need that for the reducer: React.useReducer(REDUCER_NAME, INITIAL_STATE)
 
   React.useEffect(() => {
     fetch(window.location.origin + "/aizen-react-16/pokemon.json")
       .then((resp) => resp.json())
-      .then((data) => pokemonSet(data));
+      // .then((data) => pokemonSet(data)); //before using the reducer
+      .then((data) =>
+        dispatch({
+          type: "SET_POKEMON",
+          payload: data,
+        })
+      );
   }, []);
 
-  if (!pokemon) {
+  if (!state.pokemon) {
     return <div>Loading data</div>;
   }
 
   return (
     <PokemonContext.Provider
       value={{
-        filter,
-        filterSet,
-        pokemon,
-        pokemonSet,
-        selectedPokemon,
-        selectedPokemonSet,
+        state,
+        dispatch,
       }}
     >
       <PageContainer>
