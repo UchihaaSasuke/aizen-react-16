@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/aizen-react-16/precache-manifest.3bc7367ae91bc41d852f89d5595962d9.js"
+  "/aizen-react-16/precache-manifest.2c78b867ddf49179cec28360b8025322.js"
 );
 
 self.addEventListener('message', (event) => {
