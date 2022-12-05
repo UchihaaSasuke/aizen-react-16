@@ -1,4 +1,4 @@
-import { makeObservable, observable, computed, autorun } from "mobx";
+import { makeObservable, observable, computed } from "mobx";
 
 class Store {
   filter = "";
